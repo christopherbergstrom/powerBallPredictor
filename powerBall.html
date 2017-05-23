@@ -65,18 +65,48 @@
       $(document).ready(function()
       {
         // $('#container').load('http://google.com'); // SERIOUSLY!
-        $.ajax({
-            url: 'http://www.powerball.com/powerball/winnums-text.txt',
-            type: 'GET',
-            success: function(res) {
-                var data = $(res.responseText).text();
-                // $("body").html(headline);
-                $("body").append("<div>"+data+"<div>");
-                // console.log(headline);
-                var dataArray = data.split(" ");
-                console.log(dataArray[25]);
-            }
+        $.ajax(
+        {
+          url: 'http://www.powerball.com/powerball/winnums-text.txt',
+          type: 'GET',
+          success: function(res)
+          {
+            var data = $(res.responseText).text();
+            // $("body").html(headline);
+            $("body").append("<div>"+data+"<div>");
+            // console.log(headline);
+            var dataArray = data.split("\n");
+            console.log(dataArray[25]);
+            console.log(dataArray);
+            dataStuff(dataArray);
+          }
         });
+        function dataStuff(dataArray)
+        {
+          // below is test code, not sure if it works with dataArray yet
+          var array = [];
+          for (var i = 0; i < 100; i++)
+          {
+            array.push(Math.floor(Math.random()*100)+1);
+            // array.push(1);
+          }
+          var array2 = [{number:"start", count:0}];
+          console.log(array.length);
+          array.forEach(function(data)
+          {
+            let test = 0;
+            for (var i = 0; i < array2.length; i++)
+            {
+              if (array2[i].number === data)
+                array2[i].count++;
+              else
+                test++;
+            }
+            if (test === array2.length)
+              array2.push({number:data, count:1})
+          });
+          console.log(array2);
+        }
       });
     </script>
   </head>
