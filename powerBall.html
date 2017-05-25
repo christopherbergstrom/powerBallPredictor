@@ -76,11 +76,47 @@
             $("body").append("<div>"+data+"<div>");
             // console.log(headline);
             var dataArray = data.split("\n");
-            console.log(dataArray[25]);
-            console.log(dataArray);
-            dataStuff(dataArray);
+            console.log(dataArray[1]);
+            console.log(dataArray[2]);
+            console.log(dataArray[3]);
+            // console.log(dataArray);
+            createArrays(dataArray);
           }
         });
+        function createArrays(dataArray)
+        {
+          // removes first array (date wb1 wb2 ect labels)
+          dataArray.splice(0, 1);
+          var wb1 = [];
+          var wb2 = [];
+          var wb3 = [];
+          var wb4 = [];
+          var wb5 = [];
+          var pb = [];
+          dataArray.forEach(function(item)
+          {
+            // the data has 2 spaces between numbers, who knows why
+            var tempArray = item.split("  ");
+            wb1.push(tempArray[1]);
+            wb2.push(tempArray[2]);
+            wb3.push(tempArray[3]);
+            wb4.push(tempArray[4]);
+            wb5.push(tempArray[5]);
+            pb.push(tempArray[6]);
+          });
+          console.log(wb1);
+          console.log(wb2);
+          console.log(wb3);
+          console.log(wb4);
+          console.log(wb5);
+          console.log(pb);
+          // from here pass each array to dataStuff
+          // after that you should have 6 arrays filled with objects with numbers and counts
+          // then loop through each array to find the most frequently occuring numbers for each ball
+          // if there are ties, make multiple ending numbers to accomodate each most occuring numbers
+          // ex if wb1 has a tie between 50 and 99 and the other numbers are the same
+          // produce 50 # # # # # AND 99 # # # # #
+        }
         function dataStuff(dataArray)
         {
           // below is test code, not sure if it works with dataArray yet
