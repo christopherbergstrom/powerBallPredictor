@@ -64,7 +64,12 @@
     <script>
       $(document).ready(function()
       {
-        // $('#container').load('http://google.com'); // SERIOUSLY!
+        var wb1 = [];
+        var wb2 = [];
+        var wb3 = [];
+        var wb4 = [];
+        var wb5 = [];
+        var pb = [];
         $.ajax(
         {
           url: 'http://www.powerball.com/powerball/winnums-text.txt',
@@ -87,61 +92,146 @@
         {
           // removes first array (date wb1 wb2 ect labels)
           dataArray.splice(0, 1);
-          var wb1 = [];
-          var wb2 = [];
-          var wb3 = [];
-          var wb4 = [];
-          var wb5 = [];
-          var pb = [];
+          var wb1Temp = [];
+          var wb2Temp = [];
+          var wb3Temp = [];
+          var wb4Temp = [];
+          var wb5Temp = [];
+          var pbTemp = [];
           dataArray.forEach(function(item)
           {
-            // the data has 2 spaces between numbers, who knows why
+            // the data has 2 spaces between numbers, who knows why?
             var tempArray = item.split("  ");
-            wb1.push(tempArray[1]);
-            wb2.push(tempArray[2]);
-            wb3.push(tempArray[3]);
-            wb4.push(tempArray[4]);
-            wb5.push(tempArray[5]);
-            pb.push(tempArray[6]);
+            wb1Temp.push(tempArray[1]);
+            wb2Temp.push(tempArray[2]);
+            wb3Temp.push(tempArray[3]);
+            wb4Temp.push(tempArray[4]);
+            wb5Temp.push(tempArray[5]);
+            pbTemp.push(tempArray[6]);
           });
-          console.log(wb1);
-          console.log(wb2);
-          console.log(wb3);
-          console.log(wb4);
-          console.log(wb5);
-          console.log(pb);
-          // from here pass each array to dataStuff
+          // console.log(wb1Temp);
+          // console.log(wb2Temp);
+          // console.log(wb3Temp);
+          // console.log(wb4Temp);
+          // console.log(wb5Temp);
+          // console.log(pbTemp);
+          for (var i = 1; i < 7; i++)
+          {
+            switch (i)
+            {
+              case 1:
+              {
+                createObject(wb1Temp, i);
+                break;
+              }
+              case 2:
+              {
+                createObject(wb2Temp, i);
+                break;
+              }
+              case 3:
+              {
+                createObject(wb3Temp, i);
+                break;
+              }
+              case 4:
+              {
+                createObject(wb4Temp, i);
+                break;
+              }
+              case 5:
+              {
+                createObject(wb5Temp, i);
+                break;
+              }
+              case 6:
+              {
+                createObject(pbTemp, i, printArrays);
+                break;
+              }
+              default:
+              {
+                console.log("default!");
+              }
+            }
+          }
+          // from here pass each array to createObject
           // after that you should have 6 arrays filled with objects with numbers and counts
           // then loop through each array to find the most frequently occuring numbers for each ball
           // if there are ties, make multiple ending numbers to accomodate each most occuring numbers
           // ex if wb1 has a tie between 50 and 99 and the other numbers are the same
           // produce 50 # # # # # AND 99 # # # # #
         }
-        function dataStuff(dataArray)
+        function createObject(dataArray, ball, callback)
         {
-          // below is test code, not sure if it works with dataArray yet
-          var array = [];
-          for (var i = 0; i < 100; i++)
+          var tempArray = [{number:"start", count:0}];
+          dataArray.forEach(function(item)
           {
-            array.push(Math.floor(Math.random()*100)+1);
-            // array.push(1);
-          }
-          var array2 = [{number:"start", count:0}];
-          console.log(array.length);
-          array.forEach(function(data)
-          {
-            let test = 0;
-            for (var i = 0; i < array2.length; i++)
+            // if count reaches
+            let count = 0;
+            for (var i = 0; i < tempArray.length; i++)
             {
-              if (array2[i].number === data)
-                array2[i].count++;
+              // if item === an existing number in tempArray, make that number's count ++
+              if (tempArray[i].number === item)
+                tempArray[i].count++;
               else
-                test++;
+                count++;
             }
-            if (test === array2.length)
-              array2.push({number:data, count:1})
+            // if count === tempArray.length the number isn't in tempArray, so put it in with a count of 1
+            if (count === tempArray.length)
+              tempArray.push({number:item, count:1})
           });
-          console.log(array2);
+          tempArray.splice(0, 1);
+          // console.log(tempArray);
+          switch (ball)
+          {
+            case 1:
+            {
+              wb1 = tempArray;
+              break;
+            }
+            case 2:
+            {
+              wb2 = tempArray;
+              break;
+            }
+            case 3:
+            {
+              wb3 = tempArray;
+              break;
+            }
+            case 4:
+            {
+              wb4 = tempArray;
+              break;
+            }
+            case 5:
+            {
+              wb5 = tempArray;
+              break;
+            }
+            case 6:
+            {
+              pb = tempArray;
+              break;
+            }
+            default:
+            {
+              console.log("default!");
+            }
+          }
+          // if printArrays() was passed, call it here
+          if (callback)
+            callback();
+        }
+        function printArrays()
+        {
+          console.log(wb1);
+          console.log(wb2);
+          console.log(wb3);
+          console.log(wb4);
+          console.log(wb5);
+          console.log(pb);
         }
       });
     </script>
