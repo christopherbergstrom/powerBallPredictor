@@ -78,20 +78,28 @@
           {
             var data = $(res.responseText).text();
             // $("body").html(headline);
-            $("body").append("<div>"+data+"<div>");
+            // $("body").append("<div>"+data+"<div>");
             // console.log(headline);
             var dataArray = data.split("\n");
-            console.log(dataArray[1]);
-            console.log(dataArray[2]);
-            console.log(dataArray[3]);
+            // console.log(dataArray);
+            // console.log(dataArray.length);
+            // console.log(dataArray[dataArray.length-1]);
+            // dataArray.forEach(function(item)
+            // {
+            //   $("body").append("<div>"+item+"<div>");
+            // });
+            // console.log(dataArray[1]);
+            // console.log(dataArray[2]);
+            // console.log(dataArray[3]);
             // console.log(dataArray);
             createArrays(dataArray);
           }
         });
         function createArrays(dataArray)
         {
-          // removes first array (date wb1 wb2 ect labels)
+          // removes first array (date wb1 wb2 ect labels) and last empty space
           dataArray.splice(0, 1);
+          dataArray.splice(dataArray.length-1, 1);
           var wb1Temp = [];
           var wb2Temp = [];
           var wb3Temp = [];
@@ -109,12 +117,12 @@
             wb5Temp.push(tempArray[5]);
             pbTemp.push(tempArray[6]);
           });
-          // console.log(wb1Temp);
-          // console.log(wb2Temp);
-          // console.log(wb3Temp);
-          // console.log(wb4Temp);
-          // console.log(wb5Temp);
-          // console.log(pbTemp);
+          console.log(wb1Temp[wb1Temp.length-1]);
+          console.log(wb2Temp[wb2Temp.length-1]);
+          console.log(wb3Temp[wb3Temp.length-1]);
+          console.log(wb4Temp[wb4Temp.length-1]);
+          console.log(wb5Temp[wb5Temp.length-1]);
+          console.log(pbTemp[pbTemp.length-1]);
           for (var i = 1; i < 7; i++)
           {
             switch (i)
@@ -180,6 +188,7 @@
             // if count === tempArray.length the number isn't in tempArray, so put it in with a count of 1
             if (count === tempArray.length)
               tempArray.push({number:item, count:1})
+            // console.log(item);
           });
           tempArray.splice(0, 1);
           // console.log(tempArray);
@@ -226,12 +235,37 @@
         }
         function printArrays()
         {
-          console.log(wb1);
-          console.log(wb2);
-          console.log(wb3);
-          console.log(wb4);
-          console.log(wb5);
-          console.log(pb);
+          var arrays = [{ball:"wb1", array:wb1}, {ball:"wb2", array:wb2}, {ball:"wb3", array:wb3}, {ball:"wb4", array:wb4}, {ball:"wb5", array:wb5}, {ball:"pb", array:pb}];
+          // console.log(wb1);
+          // console.log(wb2);
+          // console.log(wb3);
+          // console.log(wb4);
+          // console.log(wb5);
+          // console.log(pb);
+          // console.log(wb1.length);
+          // console.log(wb2.length);
+          // console.log(wb3.length);
+          // console.log(wb4.length);
+          // console.log(wb5.length);
+          // console.log(pb.length);
+          // for each array, find out the most ocurring number(s) and then print them out
+          arrays.forEach(function(array)
+          {
+            let max = 0;
+            array.array.forEach(function(item)
+            {
+              if (item.count > max)
+                max = item.count;
+            });
+            array.array.forEach(function(item)
+            {
+              if (item.count === max)
+              {
+                // this is most ocurring number
+                console.log(array.ball+" "+item.number+" "+item.count);
+              }
+            });
+          });
         }
       });
     </script>
